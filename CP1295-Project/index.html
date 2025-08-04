@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickNotes - Sticky Note Board</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script type="module" src="js/main.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>QuickNotes</h1>
+        <div class="controls">
+            <button id="export-btn" title="Export notes as JSON">Export</button>
+            <span class="instructions">Double-click anywhere to add a note</span>
+        </div>
+    </header>
+
+    <main id="note-board">
+        <!-- Notes will be dynamically added here -->
+    </main>
+
+    <!-- Template for creating new notes -->
+    <template id="note-template">
+        <div class="note" tabindex="0">
+            <div class="note-header">
+                <button class="quote-btn" title="Add inspirational quote">💡</button>
+                <button class="delete-btn" title="Delete note">🗑️</button>
+            </div>
+            <div class="note-content" contenteditable="true"></div>
+        </div>
+    </template>
+
+    <footer>
+        <p>CP1295 Mini-Project - QuickNotes</p>
+    </footer>
+</body>
+</html>

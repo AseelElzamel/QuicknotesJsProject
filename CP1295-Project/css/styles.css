@@ -1,0 +1,174 @@
+/* QuickNotes - Main Stylesheet */
+
+:root {
+    --primary-color: #3498db;
+    --background-color: #f5f5f5;
+    --note-yellow: #fff8b8;
+    --note-blue: #b8e3ff;
+    --note-green: #b8ffcb;
+    --note-pink: #ffb8e8;
+    --shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+    --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--background-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#export-btn {
+    background-color: white;
+    color: var(--primary-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#export-btn:hover {
+    background-color: #ecf0f1;
+    transform: translateY(-2px);
+}
+
+.instructions {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+#note-board {
+    flex-grow: 1;
+    padding: 2rem;
+    position: relative;
+    overflow: auto;
+    min-height: 80vh;
+}
+
+/* Note styling */
+.note {
+    position: absolute;
+    width: 200px;
+    min-height: 200px;
+    padding: 1rem;
+    background-color: var(--note-yellow);
+    box-shadow: var(--shadow);
+    border-radius: 2px;
+    z-index: 1;
+    cursor: move;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+}
+
+.note:focus, .note:hover {
+    z-index: 2;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+.note-header {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.note-header button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.note-header button:hover {
+    opacity: 1;
+}
+
+.note-content {
+    flex-grow: 1;
+    outline: none;
+    font-family: var(--font-main);
+    font-size: 0.95rem;
+    line-height: 1.4;
+    overflow-wrap: break-word;
+}
+
+/* Note colors */
+.note-blue {
+    background-color: var(--note-blue);
+}
+
+.note-green {
+    background-color: var(--note-green);
+}
+
+.note-pink {
+    background-color: var(--note-pink);
+}
+
+/* Animation for deleting notes */
+.note-fade-out {
+    animation: fade-out 0.3s ease forwards;
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto;
+    font-size: 0.8rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .note {
+        width: 160px;
+        min-height: 160px;
+    }
+}

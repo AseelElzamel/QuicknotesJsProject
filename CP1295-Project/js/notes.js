@@ -19,14 +19,40 @@ export class Note {
      * @param {number} options.y - Y position on the board
      * @param {string} options.color - CSS class for note color
      */
-    constructor({ id = null, content = '', x = 0, y = 0, color = null }) {
+    constructor({ id = null, content = '', x = 0, y = 0, color = null, image = null, timestamp = null, }) {
         this.id = id || this.generateId();
         this.content = content;
         this.x = x;
         this.y = y;
         this.color = color || this.getRandomColor();
         this.element = null;
+        this.image = image;
     }
+
+    //adding mehtod to set images
+
+    setImage(dataUrl) {
+        this.image = dataUrl;
+
+        if(this.element) {
+            // remove existing images if already exists
+            const existing = this.element.querySelector('img.note-image');
+            if (existing) existing.remove();
+
+            //create new image element
+            const img = document.createElement('img');
+            img.src = dataUrl;
+            img.classList.add('note-image');
+            // img.style.maxWidth = '100%';
+            // img.style.marginTop = '8px';
+            
+            this.element.appendChild(img);
+            console.log('image data url:', dataUrl);
+        }
+    }
+
+
+
 
     /**
      * Generate a unique ID for the note
@@ -63,8 +89,17 @@ export class Note {
         const contentElement = noteElement.querySelector('.note-content');
         contentElement.textContent = this.content;
         
+        //add image if exists
+        if(this.image) {
+            this.setImage(this.image);
+        }
+
         // Store reference to the element
         this.element = noteElement;
+        if(this.image){
+            this.setImage(this.image);
+        }
+
         return noteElement;
     }
 
@@ -106,7 +141,8 @@ export class Note {
             content: this.content,
             x: this.x,
             y: this.y,
-            color: this.color
+            color: this.color,
+            image: this.image
         };
     }
 

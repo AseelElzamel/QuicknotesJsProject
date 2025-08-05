@@ -175,9 +175,11 @@ footer {
 
 .note-image {
     display: block;
-    max-width: 100%;
+    max-width: 90%;
     max-height: 120px;
     margin-top: 0.5rem;
     border-radius: 4px;
+    margin: auto;
+    
 }
 

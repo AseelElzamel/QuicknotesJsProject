@@ -63,6 +63,11 @@ export function createNewNote(x, y, noteManager) {
     
     // Add to board
     noteBoard.appendChild(noteElement);
+
+    const timestampElement = document.createElement('div');
+    timestampElement.className = 'note-timestamp';
+    timestampElement.textContent = new Date(note.timestamp).toLocaleString();
+    noteElement.appendChild(timestampElement);
     
     // Focus the content area for immediate editing
     const contentElement = noteElement.querySelector('.note-content');
@@ -247,5 +252,11 @@ export function renderAllNotes(noteManager) {
         const noteElement = note.createElement();
         setupNoteEventListeners(noteElement, note, noteManager);
         noteBoard.appendChild(noteElement);
+
+        //to rerender the timestamp on reload
+        const timestampElement = document.createElement('div');
+        timestampElement.className = 'note-timestamp';
+        timestampElement.textContent = new Date(note.timestamp).toLocaleString();
+        noteElement.appendChild(timestampElement);
     });
 }

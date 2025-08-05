@@ -180,7 +180,6 @@ footer {
     margin-top: 0.5rem;
     border-radius: 4px;
     margin: auto;
-    
 }
 
 .note-timestamp {
@@ -188,6 +187,21 @@ footer {
     color: black;
     margin-top: 4px;
     margin: auto;
+}
 
+.sort-controls{
+    margin-top: 1rem;
+    gap: 0.5rem;
+}
+
+.sort-cpntrols button{
+    background-color: white;
+    border: 1px;
+    border-radius: 4px;
+
+}
+
+.sort-controls button:hover {
+    background-color: #b8e3ff;
 }
 

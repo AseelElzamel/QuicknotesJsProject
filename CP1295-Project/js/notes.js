@@ -25,10 +25,10 @@ export class Note {
         this.x = x;
         this.y = y;
         this.color = color || this.getRandomColor();
-        this.element = null;
         this.image = image;
         this.timestamp = timestamp || new Date().toISOString();
-    
+        this.element = null;
+
     }
 
     //adding mehtod to set images
@@ -49,7 +49,7 @@ export class Note {
             // img.style.marginTop = '8px';
             
             this.element.appendChild(img);
-            console.log('image data url:', dataUrl);
+            //console.log('image data url:', dataUrl);
         }
     }
 

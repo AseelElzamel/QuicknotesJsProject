@@ -3,7 +3,7 @@
  * Functions for handling the user interface elements and interactions
  */
 
-import { createNote } from './notes.js';
+import { NoteManager, createNote } from './notes.js';
 import { saveNotes, exportNotesAsJson } from './storage.js';
 
 /**
@@ -21,6 +21,27 @@ export function initializeUI(noteManager) {
             createNewNote(event.clientX, event.clientY, noteManager);
         }
     });
+
+    setTimeout(() => {
+        const sortAscBtn = document.getElementById('sort-asc-btn');
+        const sortDescBtn = document.getElementById('sort-desc-btn');
+
+        if (sortAscBtn && sortDescBtn) {
+        //click button to sort notes asc
+        sortAscBtn.addEventListener('click', () => {
+            console.log("sort asc clicked");
+            sortNotesByTimestamp(noteManager,'asc');
+        });
+
+        //click button to sort notes desc
+        sortDescBtn.addEventListener('click', () => {
+            console.log("sort desc clicked");
+            sortNotesByTimestamp(noteManager,'desc');
+        });
+    } else {
+        console.warn("sort buttons not found in dom")
+    }
+    }, 0);
 
     // Export button click handler
     exportBtn.addEventListener('click', () => {
@@ -258,5 +279,49 @@ export function renderAllNotes(noteManager) {
         timestampElement.className = 'note-timestamp';
         timestampElement.textContent = new Date(note.timestamp).toLocaleString();
         noteElement.appendChild(timestampElement);
+    });
+}
+
+
+/**
+ * Sort and re-render notes by timestamp
+ * @param {NoteManager} noteManager
+ * @param {'asc' | 'desc'} order
+ */
+function sortNotesByTimestamp(noteManager, order = 'asc') {
+    // Sort notes
+    const sortedNotes = noteManager.getAllNotes().sort((a, b) => {
+      const aTime = new Date(a.timestamp).getTime();
+      const bTime = new Date(b.timestamp).getTime();
+      return order === 'asc' ? aTime - bTime : bTime - aTime;
+    });
+  
+    // Clear old notes from manager and board
+    noteManager.notes.clear();
+  
+    const noteBoard = document.getElementById('note-board');
+    noteBoard.innerHTML = '';
+  
+    // Re-add sorted notes
+    // the notes are not being to positioned so i will explicitly reposition the notes
+    let offsetY = 20;
+    const gap = 20;
+    const fixedTop = 20;
+
+    sortedNotes.forEach(note => {
+      noteManager.addNote(note); // to update internal map
+  
+      const noteElement = note.createElement();
+      setupNoteEventListeners(noteElement, note, noteManager);
+  
+      const timestampElement = document.createElement('div');
+      timestampElement.className = 'note-timestamp';
+      timestampElement.textContent = new Date(note.timestamp).toLocaleString();
+      noteElement.appendChild(timestampElement);
+  
+      note.updatePosition(20, offsetY);
+      offsetY += noteElement.offsetHeight + gap;
+
+      noteBoard.appendChild(noteElement);
     });
 }

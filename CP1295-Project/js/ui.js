@@ -305,7 +305,7 @@ function sortNotesByTimestamp(noteManager, order = 'asc') {
     // Re-add sorted notes
     // the notes are not being to positioned so i will explicitly reposition the notes
     let offsetY = 20;
-    const gap = 20;
+    const gap = 230;
     const fixedTop = 20;
 
     sortedNotes.forEach(note => {

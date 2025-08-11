@@ -287,41 +287,54 @@ export function renderAllNotes(noteManager) {
  * Sort and re-render notes by timestamp
  * @param {NoteManager} noteManager
  * @param {'asc' | 'desc'} order
- */
-function sortNotesByTimestamp(noteManager, order = 'asc') {
-    // Sort notes
-    const sortedNotes = noteManager.getAllNotes().sort((a, b) => {
-      const aTime = new Date(a.timestamp).getTime();
-      const bTime = new Date(b.timestamp).getTime();
-      return order === 'asc' ? aTime - bTime : bTime - aTime;
-    });
-  
-    // Clear old notes from manager and board
-    noteManager.notes.clear();
-  
+//  */
+export function sortNotesByTimestamp(noteManager, order = 'asc') {
     const noteBoard = document.getElementById('note-board');
-    noteBoard.innerHTML = '';
-  
-    // Re-add sorted notes
-    // the notes are not being to positioned so i will explicitly reposition the notes
-    let offsetY = 20;
-    const gap = 230;
-    const fixedTop = 20;
+    const allNotes = noteManager.getAllNotes();
+
+    const sortedNotes = allNotes.slice().sort((a, b) => {
+        const timeA = new Date(a.timestamp).getTime();
+        const timeB = new Date(b.timestamp).getTime();
+        return order === 'asc' ? timeA - timeB : timeB - timeA;
+    });
+
+    // Clear the board
+    const existingNotes = noteBoard.querySelectorAll('.note');
+    existingNotes.forEach(note => note.remove());
+    noteManager.notes.clear();
+
+    // Horizontal layout settings
+    const startX = 20;
+    const startY = 40;
+    const gap = 20;
+    const maxWidth = noteBoard.clientWidth;
+
+    let x = startX;
+    let y = startY;
 
     sortedNotes.forEach(note => {
-      noteManager.addNote(note); // to update internal map
-  
-      const noteElement = note.createElement();
-      setupNoteEventListeners(noteElement, note, noteManager);
-  
-      const timestampElement = document.createElement('div');
-      timestampElement.className = 'note-timestamp';
-      timestampElement.textContent = new Date(note.timestamp).toLocaleString();
-      noteElement.appendChild(timestampElement);
-  
-      note.updatePosition(20, offsetY);
-      offsetY += noteElement.offsetHeight + gap;
+        noteManager.addNote(note);
 
-      noteBoard.appendChild(noteElement);
+        const noteElement = note.createElement();
+        setupNoteEventListeners(noteElement, note, noteManager);
+
+        //timestamp display
+        const timestampElement = document.createElement('div');
+        timestampElement.className = 'note-timestamp';
+        timestampElement.textContent = new Date(note.timestamp).toLocaleString();
+        noteElement.appendChild(timestampElement);
+
+        // Place note at (x, y)
+        note.updatePosition(x, y);
+        noteBoard.appendChild(noteElement);
+
+        // Advance x for next note
+        x += noteElement.offsetWidth + gap;
+
+        // Wrap to next row if beyond board width
+        if (x + noteElement.offsetWidth > maxWidth) {
+            x = startX;
+            y += noteElement.offsetHeight + gap;
+        }
     });
 }

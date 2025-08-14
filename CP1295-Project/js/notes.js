@@ -19,20 +19,21 @@ export class Note {
      * @param {number} options.y - Y position on the board
      * @param {string} options.color - CSS class for note color
      */
+
     constructor({ id = null, content = '', x = 0, y = 0, color = null, image = null, timestamp = null }) {
         this.id = id || this.generateId();
         this.content = content;
         this.x = x;
         this.y = y;
         this.color = color || this.getRandomColor();
+        //added image and time stamp properties
         this.image = image;
         this.timestamp = timestamp || new Date().toISOString();
         this.element = null;
 
     }
 
-    //adding mehtod to set images
-
+    //added mehtod to set images
     setImage(dataUrl) {
         this.image = dataUrl;
 
@@ -52,9 +53,6 @@ export class Note {
             //console.log('image data url:', dataUrl);
         }
     }
-
-
-
 
     /**
      * Generate a unique ID for the note
@@ -91,7 +89,7 @@ export class Note {
         const contentElement = noteElement.querySelector('.note-content');
         contentElement.textContent = this.content;
         
-        //add image if exists
+        // add image if exists
         if(this.image) {
             this.setImage(this.image);
         }

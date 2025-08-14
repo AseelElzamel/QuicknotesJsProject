@@ -142,6 +142,7 @@ export function setupNoteEventListeners(noteElement, note, noteManager) {
         }
     });
 
+    // Image button handler
     imageButton.addEventListener('click', async () => {
         const fileInput = document.createElement('input');
         fileInput.type = 'file';
